@@ -84,6 +84,16 @@ class Queueup
         overflow-y: scroll;
       }
       audio { width: 127px }
+
+      .library th, td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100px;
+      }
+      .library th {
+        resize: horizontal;
+      }
     </style>
   </head>
   <body>
