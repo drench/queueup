@@ -77,11 +77,15 @@ class window.Player
     @playlist.goForward()
     @stop() if @playlist.currentSong.isNull()
 
+  play: -> @audioTag.play()
+
   prev: ->
     @playlist.goBackward()
     @stop() if @playlist.currentSong.isNull()
 
-  queueup: (song) -> @playlist.queueup(song)
+  queueup: (song) ->
+    @playlist.queueup(song)
+    @play() unless song.isNull()
 
   trashCurrentSong: ->
     @playlist.setCurrentSong()
@@ -108,12 +112,15 @@ class window.QueueupControl
       else
         @$shuffleButton.removeClass("inset")
 
+  queueupSongFromElement: ($element) ->
+    href = $element.data("href")
+    $row = $element.parents("tr")
+    @player.queueup(new Song(href, $row))
+
   initializeAddFileButtons: ->
     jQuery(".add-file").on "click", (event) =>
       event.preventDefault()
-      $target = jQuery(event.target)
-      @player.queueup(new Song($target.data("href"), $target.parents("tr")))
-
+      @queueupSongFromElement(jQuery(event.target))
 
   initializeDequeueButtons: ->
     jQuery("body").on "click", ".dequeue", (event) =>
