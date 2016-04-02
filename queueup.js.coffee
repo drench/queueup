@@ -95,7 +95,6 @@ class window.QueueupControl
     @initializeNextButton()
     @initializePrevButton()
     @initializeAddFileButtons()
-    @initializeAddFolderButtons()
     @initializeDequeueButtons()
     @initializeShuffleButton()
 
@@ -115,11 +114,6 @@ class window.QueueupControl
       $target = jQuery(event.target)
       @player.queueup(new Song($target.data("href"), $target.parents("tr")))
 
-  initializeAddFolderButtons: ->
-    player = @player
-    jQuery(".add-folder").on "click", (event) ->
-      jQuery(event.target).parents("ul.directory").find(".add-file").each ->
-        player.queueup(new Song(this.pathname))
 
   initializeDequeueButtons: ->
     jQuery("body").on "click", ".dequeue", (event) =>
