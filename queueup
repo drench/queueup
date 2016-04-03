@@ -101,6 +101,8 @@ class Queueup
       <div id="player" class="col_4">
         <button class="small prev fa fa-backward" v-bind:class="{ blue: player.playlist.anyPlayed() }" title="previous">
         </button>
+        <button class="small pause fa fa-pause"></button>
+        <button class="small play fa fa-play"></button>
         <audio controls="true" autoplay="true" v-bind:src="player.playlist.currentSong.url"></audio>
         <button class="small next fa fa-forward" v-bind:class="{ blue: player.playlist.anyUnplayed() }" title="next">
         </button>

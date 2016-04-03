@@ -77,6 +77,8 @@ class window.Player
     @playlist.goForward()
     @stop() if @playlist.currentSong.isNull()
 
+  paused: -> @audioTag.paused
+
   play: -> @audioTag.play()
 
   prev: ->
@@ -97,10 +99,34 @@ class window.QueueupControl
   initializeEvents: ->
     @initializeEmptyButton()
     @initializeNextButton()
+    @initializePlayPauseButtons()
     @initializePrevButton()
     @initializeAddFileButtons()
     @initializeDequeueButtons()
     @initializeShuffleButton()
+
+  showPlayControls: ->
+    @$pauseButton.hide()
+    @$playButton.show()
+
+  showPauseControls: ->
+    @$pauseButton.show()
+    @$playButton.hide()
+
+  initializePlayPauseButtons: -> # TODO: refactor
+    @$pauseButton = jQuery(".pause")
+    @$playButton = jQuery(".play")
+
+    if @player.paused @showPlayControls() else @showPauseControls()
+
+    jQuery(@player.audioTag)
+      .on("pause", => @showPlayControls())
+      .on("playing", => @showPauseControls())
+
+    @$pauseButton.on "click", => @player.audioTag.pause()
+
+    @$playButton.on "click", =>
+      if @player.playable() then @player.audioTag.play()
 
   initializeShuffleButton: ->
     @$shuffleButton = jQuery(".shuffle")
