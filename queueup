@@ -113,6 +113,7 @@ class Queueup
         </button>
         <button class="shuffle fa fa-random small" v-bind:class="{ inset: player.playlist.shuffle }" title="shuffle mode">
         </button>
+        <span class="elapsed-time">{{ player.timeDisplay }}</span>
 
         <table class="striped tight">
           <tr v-if="!player.playlist.currentSong.isNull()">

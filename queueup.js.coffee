@@ -66,6 +66,11 @@ class window.Playlist
 class window.Player
   constructor: (@audioTag, @playlist = new Playlist) ->
     @audioTag.addEventListener "ended", => @next()
+    @initializeDurationEvent()
+
+  initializeDurationEvent: ->
+    @timeDisplay = ""
+    jQuery(@audioTag).on "timeupdate", => @timeDisplay = @formatTimeDisplay()
 
   playable: -> @audioTag.paused && @audioTag.src
 
@@ -88,6 +93,20 @@ class window.Player
   queueup: (song) ->
     @playlist.queueup(song)
     @play() unless song.isNull()
+
+  formatTimeDisplay: ->
+    if isFinite(@audioTag.duration)
+      @_mmss(@audioTag.currentTime) + " of " + @_mmss(@audioTag.duration)
+    else
+      ""
+
+  _mmss: (seconds) ->
+    minutes = Math.floor(seconds / 60.0)
+    seconds = Math.floor(seconds - (minutes * 60))
+    "#{@_zeropad(minutes)}:#{@_zeropad(seconds)}"
+
+  _zeropad: (integer) ->
+    if integer > 9 then integer.toString() else "0#{integer}"
 
   trashCurrentSong: ->
     @playlist.setCurrentSong()
@@ -166,7 +185,7 @@ jQuery ->
   window.player = new Player(document.querySelector("audio"))
   window.queueupControl = new QueueupControl(player)
 
-  new Vue
+  window._vue = new Vue
     el: "body"
     data:
       player: window.player
