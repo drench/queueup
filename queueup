@@ -103,7 +103,7 @@ class Queueup
         </button>
         <button class="small pause fa fa-pause"></button>
         <button class="small play fa fa-play"></button>
-        <audio controls="true" autoplay="true" v-bind:src="player.playlist.currentSong.url"></audio>
+        <audio autoplay="true" v-bind:src="player.playlist.currentSong.url"></audio>
         <button class="small next fa fa-forward" v-bind:class="{ blue: player.playlist.anyUnplayed() }" title="next">
         </button>
         <button v-bind:class="{ red: player.playlist.anyUnplayed() }" class="fa fa-ban small empty" title="clear queue">
