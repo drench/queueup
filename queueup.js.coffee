@@ -189,3 +189,5 @@ jQuery ->
     el: "body"
     data:
       player: window.player
+
+  window._filter = new List("library", valueNames: ["album", "artist"])

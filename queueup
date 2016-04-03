@@ -36,9 +36,9 @@ class Queueup
       %Q{      <i title="queue this song" class="fa fa-plus-square" data-href="#{href}"></i>} +
       %Q{    </a>\n} +
       %Q{  </td>\n} +
-      %Q{  <td>#{CGI.escapeHTML(artist)}</td>\n} +
+      %Q{  <td class="artist">#{CGI.escapeHTML(artist)}</td>\n} +
       %Q{  <td>#{CGI.escapeHTML(title)}</td>\n} +
-      %Q{  <td>#{CGI.escapeHTML(album)}</td>\n} +
+      %Q{  <td class="album">#{CGI.escapeHTML(album)}</td>\n} +
       %Q{  <td>#{CGI.escapeHTML(track.to_s)}</td>\n} +
       %Q{  <td>#{CGI.escapeHTML(year.to_s)}</td>\n} +
       %Q{</tr>\n}
@@ -135,7 +135,8 @@ class Queueup
         </table>
       </div>
 
-      <div class="col_8">
+      <div id="library" class="col_8">
+        <input class="search" placeholder="Filter artist or album" />
         <table class="striped tight library">
           <thead>
             <tr>
@@ -147,13 +148,14 @@ class Queueup
               <th>Year</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="list">
             #{as_table}
           </tbody>
         </table>
       </div>
     </div>
     <script src="HTML-KickStart-master/js/kickstart.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
   </body>
 </html>
 HTML
