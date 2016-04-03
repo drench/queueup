@@ -140,7 +140,11 @@ class Queueup
         <table class="striped tight library">
           <thead>
             <tr>
-              <th></th>
+              <th>
+                <a class="add-multiple-files" title="queue all songs listed below" href="javascript://">
+                  <i class="fa fa-plus-square"></i>
+                </a>
+              </th>
               <th>Artist</th>
               <th>Title</th>
               <th>Album</th>
@@ -160,8 +164,6 @@ class Queueup
 </html>
 HTML
   end
-
-  # TK css class .add-folder is gone (temporarily)
 
   def as_table
     # TK assumes chdir happened!

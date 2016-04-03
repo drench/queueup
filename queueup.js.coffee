@@ -166,6 +166,11 @@ class window.QueueupControl
     jQuery(".add-file").on "click", (event) =>
       event.preventDefault()
       @queueupSongFromElement(jQuery(event.target))
+    jQuery(".add-multiple-files").on "click", =>
+      jQuery("#library tbody tr").each (_, row) =>
+        $row = jQuery(row)
+        href = $row.find(".add-file i").data("href")
+        @player.queueup(new Song(href, $row))
 
   initializeDequeueButtons: ->
     jQuery("body").on "click", ".dequeue", (event) =>
