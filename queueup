@@ -80,8 +80,6 @@ class Queueup
       }
 
       #player button { margin-bottom: 20px }
-      .menu a { font-size: x-small !important }
-      ul.alt li { font-size: small; }
       .library, .playlist {
         max-height: 200px;
         overflow-y: scroll;
