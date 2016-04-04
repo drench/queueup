@@ -50,18 +50,19 @@ class window.Playlist
       when @shuffle then @_pushRandomly(@unplayed, song)
       else @unplayed.push(song)
 
-  shuffleArray: (array) ->
+  shuffleUnplayed: ->
+    shuffled = ArrayShuffler.shuffle(@unplayed)
+    @unplayed = []
+    @unplayed = shuffled
+
+class ArrayShuffler
+  @shuffle: (array) ->
     index = array.length
     while index > 1
       randomSlot = Math.floor(index * Math.random())
       index -= 1
       [array[index], array[randomSlot]] = [array[randomSlot], array[index]]
     array
-
-  shuffleUnplayed: ->
-    shuffled = @shuffleArray(@unplayed)
-    @unplayed = []
-    @unplayed = shuffled
 
 class TimeFormatter
   @mmss: (seconds) ->
