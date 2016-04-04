@@ -64,6 +64,27 @@ class ArrayShuffler
       [array[index], array[randomSlot]] = [array[randomSlot], array[index]]
     array
 
+class MediaTag
+  constructor: (@element) ->
+    @$ = jQuery(@element)
+
+  formatTimeDisplay: ->
+    if isFinite(@element.duration)
+      TimeFormatter.mmss(@element.currentTime) +
+      " of " +
+      TimeFormatter.mmss(@element.duration)
+    else
+      ""
+
+  pause: -> @element.pause()
+  paused: -> @element.paused
+  play: -> @element.play()
+  playable: -> @element.paused && @element.src
+
+  stop: ->
+    @element.pause()
+    @element.src = ""
+
 class TimeFormatter
   @mmss: (seconds) ->
     minutes = Math.floor(seconds / 60.0)
@@ -74,27 +95,25 @@ class TimeFormatter
     if integer > 9 then integer.toString() else "0#{integer}"
 
 class window.Player
-  constructor: (@audioTag, @playlist = new Playlist) ->
-    @audioTag.addEventListener "ended", => @next()
+  constructor: (@mediaTag, @playlist = new Playlist) ->
+    @mediaTag.$.on "ended", => @next()
     @initializeDurationEvent()
 
   initializeDurationEvent: ->
     @timeDisplay = ""
-    jQuery(@audioTag).on "timeupdate", => @timeDisplay = @formatTimeDisplay()
+    @mediaTag.$.on "timeupdate", => @timeDisplay = @mediaTag.formatTimeDisplay()
 
-  playable: -> @audioTag.paused && @audioTag.src
-
-  stop: ->
-    @audioTag.pause()
-    @audioTag.src = ""
+  pause: -> @mediaTag.pause()
+  paused: -> @mediaTag.paused()
+  play: -> @mediaTag.play()
+  playable: -> @mediaTag.playable()
+  stop: -> @mediaTag.stop()
 
   next: ->
     @playlist.goForward()
     @stop() if @playlist.currentSong.isNull()
 
-  paused: -> @audioTag.paused
-
-  play: -> @audioTag.play()
+  on: (eventType, callback) -> @mediaTag.$.on(eventType, callback)
 
   prev: ->
     @playlist.goBackward()
@@ -103,14 +122,6 @@ class window.Player
   queueup: (song) ->
     @playlist.queueup(song)
     @play() unless song.isNull()
-
-  formatTimeDisplay: ->
-    if isFinite(@audioTag.duration)
-      TimeFormatter.mmss(@audioTag.currentTime) +
-      " of " +
-      TimeFormatter.mmss(@audioTag.duration)
-    else
-      ""
 
   trashCurrentSong: ->
     @playlist.setCurrentSong()
@@ -140,16 +151,16 @@ class window.QueueupControl
     @$pauseButton = jQuery(".pause")
     @$playButton = jQuery(".play")
 
-    if @player.paused @showPlayControls() else @showPauseControls()
+    if @player.paused() then @showPlayControls() else @showPauseControls()
 
-    jQuery(@player.audioTag)
+    @player
       .on("pause", => @showPlayControls())
       .on("playing", => @showPauseControls())
 
-    @$pauseButton.on "click", => @player.audioTag.pause()
+    @$pauseButton.on "click", => @player.pause()
 
     @$playButton.on "click", =>
-      if @player.playable() then @player.audioTag.play()
+      if @player.playable() then @player.play()
 
   initializeShuffleButton: ->
     @$shuffleButton = jQuery(".shuffle")
@@ -191,7 +202,8 @@ class window.QueueupControl
     jQuery(".empty").on "click", => @player.playlist.emptyUnplayedQueue()
 
 jQuery ->
-  window.player = new Player(document.querySelector("audio"))
+  window.mediaTag = new MediaTag(document.querySelector("audio"))
+  window.player = new Player(mediaTag)
   window.queueupControl = new QueueupControl(player)
 
   window._vue = new Vue
