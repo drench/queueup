@@ -63,6 +63,15 @@ class window.Playlist
     @unplayed = []
     @unplayed = shuffled
 
+class TimeFormatter
+  @mmss: (seconds) ->
+    minutes = Math.floor(seconds / 60.0)
+    seconds = Math.floor(seconds - (minutes * 60))
+    "#{@._pad(minutes)}:#{@._pad(seconds)}"
+
+  @_pad: (integer) ->
+    if integer > 9 then integer.toString() else "0#{integer}"
+
 class window.Player
   constructor: (@audioTag, @playlist = new Playlist) ->
     @audioTag.addEventListener "ended", => @next()
@@ -96,17 +105,11 @@ class window.Player
 
   formatTimeDisplay: ->
     if isFinite(@audioTag.duration)
-      @_mmss(@audioTag.currentTime) + " of " + @_mmss(@audioTag.duration)
+      TimeFormatter.mmss(@audioTag.currentTime) +
+      " of " +
+      TimeFormatter.mmss(@audioTag.duration)
     else
       ""
-
-  _mmss: (seconds) ->
-    minutes = Math.floor(seconds / 60.0)
-    seconds = Math.floor(seconds - (minutes * 60))
-    "#{@_zeropad(minutes)}:#{@_zeropad(seconds)}"
-
-  _zeropad: (integer) ->
-    if integer > 9 then integer.toString() else "0#{integer}"
 
   trashCurrentSong: ->
     @playlist.setCurrentSong()
