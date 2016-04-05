@@ -75,6 +75,8 @@ class MediaTag
     else
       ""
 
+  on: (eventType, callback) -> @$.on(eventType, callback)
+
   pause: -> @element.pause()
   paused: -> @element.paused
   play: -> @element.play()
@@ -95,12 +97,12 @@ class TimeFormatter
 
 class window.Player
   constructor: (@mediaTag, @playlist = new Playlist) ->
-    @mediaTag.$.on "ended", => @next()
+    @mediaTag.on "ended", => @next()
     @initializeDurationEvent()
 
   initializeDurationEvent: ->
     @timeDisplay = ""
-    @mediaTag.$.on "timeupdate", => @timeDisplay = @mediaTag.formatTimeDisplay()
+    @mediaTag.on "timeupdate", => @timeDisplay = @mediaTag.formatTimeDisplay()
 
   pause: -> @mediaTag.pause()
   paused: -> @mediaTag.paused()
@@ -112,7 +114,7 @@ class window.Player
     @playlist.goForward()
     @stop() if @playlist.currentSong.isNull()
 
-  on: (eventType, callback) -> @mediaTag.$.on(eventType, callback)
+  on: (eventType, callback) -> @mediaTag.on(eventType, callback)
 
   prev: ->
     @playlist.goBackward()
