@@ -9,7 +9,6 @@ class window.Song
     else
       "#{@artist()} - #{@title()}"
 
-  old_toS: -> if @url? then unescape(@url) else ""
   artist: -> @$row.find("td")[1].innerText if @$row?
   title: -> @$row.find("td")[2].innerText if @$row?
   album: -> @$row.find("td")[3].innerText if @$row?
