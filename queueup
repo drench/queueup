@@ -17,11 +17,13 @@ class Queueup
     end
 
     def album
-      @album ||= TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.album }
+      @album ||=
+        TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.album }.to_s
     end
 
     def artist
-      @artist ||= TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.artist }
+      @artist ||=
+        TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.artist }.to_s
     end
 
     def filename
@@ -45,15 +47,18 @@ class Queueup
     end
 
     def title
-      @title ||= TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.title }
+      @title ||=
+        TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.title }.to_s
     end
 
     def track
-      @track ||= TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.track }
+      @track ||=
+        TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.track }.to_s
     end
 
     def year
-      @year ||= TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.year }
+      @year ||=
+        TagLib::FileRef.open(fullpath) { |fileref| fileref.tag.year }.to_s
     end
   end
 
