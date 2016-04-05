@@ -108,6 +108,7 @@ class window.Player
   paused: -> @mediaTag.paused()
   play: -> @mediaTag.play()
   playable: -> @mediaTag.playable()
+  shuffleUnplayed: -> @playlist.shuffleUnplayed()
   stop: -> @mediaTag.stop()
 
   next: ->
@@ -165,10 +166,10 @@ class window.QueueupControl
 
   initializeShuffleButton: ->
     @$shuffleButton = jQuery(".shuffle")
-    @$shuffleButton.on "click", () =>
+    @$shuffleButton.on "click", =>
       @shuffle = !@shuffle
       if @shuffle
-        @player.playlist.shuffleUnplayed()
+        @player.shuffleUnplayed()
         @$shuffleButton.addClass("inset")
       else
         @$shuffleButton.removeClass("inset")
