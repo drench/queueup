@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "queueup"
+
+Queueup.new(ARGV[0]).install!

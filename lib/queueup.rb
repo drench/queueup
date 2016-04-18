@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require "cgi"
 require "fileutils"
 require "taglib"
@@ -183,5 +181,3 @@ HTML
     end
   end
 end
-
-Queueup.new(ARGV[0]).install!
