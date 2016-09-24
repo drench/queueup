@@ -79,7 +79,7 @@ class Queueup
     <style>
       body {
         font-family: sans-serif;
-        font-size: small;
+        font-size: x-large;
       }
 
       #player button { margin-bottom: 20px }
@@ -102,7 +102,7 @@ class Queueup
   </head>
   <body>
     <div class="grid flex">
-      <div id="player" class="col_4">
+      <div id="player">
         <button class="small prev fa fa-backward" v-bind:class="{ blue: player.playlist.anyPlayed() }" title="previous">
         </button>
         <button class="small pause fa fa-pause"></button>
@@ -136,7 +136,7 @@ class Queueup
         </table>
       </div>
 
-      <div id="library" class="col_8">
+      <div id="library">
         <input class="search" placeholder="Filter artist or album" />
         <table class="striped tight library">
           <thead>
